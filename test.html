@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Triggers</title>
+  </head>
+
+  <body>
+    <script src="https://cdn.botpress.cloud/webchat/v0/inject.js"></script>
+    <script
+      src="https://mediafiles.botpress.cloud/d0b313a3-d64a-4be6-a4c0-d0f1bc6de51c/webchat/config.js"
+      defer
+    ></script>
+
+    <button id="myButton">Click Me!</button>
+    <script>
+      function handleClick() {
+        console.log("Button clicked!");
+        window.botpressWebChat.sendPayload({
+          type: "trigger",
+          payload: {
+            myCustomProperty: "hello",
+          },
+        });
+      }
+
+      const button = document.getElementById("myButton");
+      button.addEventListener("click", handleClick);
+
+      window.botpressWebChat.onEvent(
+        function (event) {
+          if (event.type === "LIFECYCLE.LOADED") {
+            window.botpressWebChat.sendEvent({ type: "show" });
+          }
+        },
+        ["LIFECYCLE.LOADED"]
+      );
+    </script>
+  </body>
+</html>
